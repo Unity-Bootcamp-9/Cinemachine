@@ -1,5 +1,6 @@
 # Cinemachine
 
-�����
-> ȭ����
 HI
+
+고영민
+> HELLO
