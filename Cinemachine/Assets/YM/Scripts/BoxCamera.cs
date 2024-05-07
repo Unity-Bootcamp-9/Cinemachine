@@ -1,14 +1,15 @@
+using Cinemachine;
 using UnityEngine;
 
 public class BoxActivator : MonoBehaviour
 {
-    public GameObject virtualCamera;
+    public CinemachineVirtualCamera virtualCamera;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Box"))
         {
-            virtualCamera.SetActive(true);
+            virtualCamera.m_Priority = 15;
             Invoke("CameraOff", 3f);
 
         }
@@ -16,6 +17,6 @@ public class BoxActivator : MonoBehaviour
 
     private void CameraOff()
     {
-        virtualCamera.SetActive(false);
+        virtualCamera.m_Priority = 5;
     }
 }
