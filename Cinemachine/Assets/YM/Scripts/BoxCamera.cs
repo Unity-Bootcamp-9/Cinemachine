@@ -34,4 +34,7 @@ public class BoxActivator : MonoBehaviour
     {
         BossCamera.m_Priority = 5;
     }
+    
+    /*
+     * */
 }
