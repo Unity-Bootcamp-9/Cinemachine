@@ -13,4 +13,9 @@ public class JWCameraController : MonoBehaviour
         baseCam.Priority = 0;   
         changeCamera.Priority = 10;
     }
+
+    public void SetCamera(CinemachineVirtualCamera cam)
+    {
+
+    }
 }
