@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - Box
+  - Boss
   layers:
   - Default
   - TransparentFX
