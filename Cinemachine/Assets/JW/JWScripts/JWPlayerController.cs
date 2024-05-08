@@ -6,15 +6,20 @@ using static UnityEngine.UI.Image;
 
 public class JWPlayerController : MonoBehaviour
 {
-    public JWPlayerStateMachine stateMachine;
     public Animator animator;
     public Camera mainCamera;
+    public AnimationTrigger animTrigger;
 
+    #region States
+    public JWPlayerStateMachine stateMachine;
     public JWPlayerIdleState idleState;
     public JWPlayerWalkingState walkingState;
     public JWPlayerRunningState runningState;
     public JWPlayerJumpState jumpState;
     public JWPlayerReadyState readyState;
+    public JWPlayerRunJumpState runJumpState;
+    public JWPlayerJumpAttackState jumpAttackState;
+    #endregion
 
     Vector3 mouseDir;
     public float moveSpeed;
@@ -34,6 +39,7 @@ public class JWPlayerController : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+        animTrigger = GetComponentInChildren<AnimationTrigger>();
 
         stateMachine = new JWPlayerStateMachine();
 
@@ -42,6 +48,8 @@ public class JWPlayerController : MonoBehaviour
         runningState = new JWPlayerRunningState(this, stateMachine, animator, "Run");
         jumpState = new JWPlayerJumpState(this, stateMachine, animator, "Jump");
         readyState = new JWPlayerReadyState(this, stateMachine, animator, "Ready");
+        runJumpState = new JWPlayerRunJumpState(this, stateMachine, animator, "RunJump");
+        jumpAttackState = new JWPlayerJumpAttackState(this, stateMachine, animator, "JumpAttack");
     }
 
     private void Start()
@@ -52,7 +60,7 @@ public class JWPlayerController : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
-        Move();
+        //Move();
         Jump();
         GroundCheck();
         CameraChange();
@@ -145,15 +153,15 @@ public class JWPlayerController : MonoBehaviour
         }
     }
 
-    public float jumpForce;
     public float rotateSpeed;
 
     private void Jump()
     {
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        animator.SetBool("isGrounded", isGrounded);
+        //if (Input.GetKey(KeyCode.Space) && isGrounded)
+        //{
+        //    rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+        //}
     }
     
     private void CameraChange()
@@ -165,7 +173,6 @@ public class JWPlayerController : MonoBehaviour
         }
         else
         {
-
             zoomInCamera.enabled = false;
             defaultCamera.enabled = true;
         }

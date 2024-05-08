@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JWPlayerGroundState : JWPlayerState
 {
+    public float moveSpeed;
     public JWPlayerGroundState(JWPlayerController controller, JWPlayerStateMachine stateMachine, Animator animator, string animBool) : base(controller, stateMachine, animator, animBool)
     {
     }
@@ -22,20 +23,25 @@ public class JWPlayerGroundState : JWPlayerState
     {
         base.Update();
 
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             stateMachine.SetState(controller.readyState);
         }
+        
+        if(Input.GetKey(KeyCode.Q)) 
+        {
+            stateMachine.SetState(controller.jumpAttackState);
+        }
 
-        if ((controller.horizontal != 0 || controller.vertical != 0) && Input.GetKey(KeyCode.LeftShift))
+
+        if (Input.GetKey(KeyCode.LeftShift) && (Input.GetButton("Horizontal") || Input.GetButton("Vertical")))
         {
             stateMachine.SetState(controller.runningState);
         }
 
-        else if (controller.horizontal != 0 || controller.vertical != 0)
+        else if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
         {
             stateMachine.SetState(controller.walkingState);
         }
-       
     }
 }
