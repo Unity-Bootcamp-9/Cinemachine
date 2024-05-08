@@ -26,14 +26,12 @@ public class JWPlayerState
 
     public virtual void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
-        {
-            stateMachine.SetState(controller.jumpState);
-        }
+        
     }
 
     public virtual void Exit()
     {
         animator.SetBool(animBool, false);
+        controller.animTrigger.TriggerReset();
     }
 }
