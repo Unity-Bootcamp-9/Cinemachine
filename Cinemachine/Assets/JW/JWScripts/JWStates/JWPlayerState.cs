@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class JWPlayerState
 {
-    public JWPlayerController controller;
+    public JWPlayerController player;
     public JWPlayerStateMachine stateMachine;
+    public JWCameraController camController;
     public string animBool;
     Animator animator;
 
 
     public JWPlayerState(JWPlayerController controller, JWPlayerStateMachine stateMachine, Animator animator, string animBool)
     {
-        this.controller = controller;
+        player = controller;
         this.stateMachine = stateMachine;
         this.animator = animator;
         this.animBool = animBool;
+        camController = player.camController;
     }
 
     public virtual void Enter()
@@ -26,12 +28,18 @@ public class JWPlayerState
 
     public virtual void Update()
     {
-        
+        if(player.bossTrigger)
+        {
+            stateMachine.SetState(player.bossEntryState);
+        }
     }
 
     public virtual void Exit()
     {
         animator.SetBool(animBool, false);
-        controller.animTrigger.TriggerReset();
+
+        player.animTrigger.TriggerReset();
+
+        camController.SetCamera(camController.baseCam);
     }
 }

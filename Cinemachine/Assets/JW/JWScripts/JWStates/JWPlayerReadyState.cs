@@ -11,6 +11,7 @@ public class JWPlayerReadyState : JWPlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        camController.SetCamera(camController.zoomCam);
     }
 
     public override void Exit()
@@ -24,7 +25,7 @@ public class JWPlayerReadyState : JWPlayerGroundState
 
         if(Input.GetKeyUp(KeyCode.F)) 
         {
-            stateMachine.SetState(controller.idleState);
+            stateMachine.SetState(player.idleState);
         }
     }
 }

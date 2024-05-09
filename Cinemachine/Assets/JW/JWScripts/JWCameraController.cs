@@ -5,17 +5,41 @@ using UnityEngine;
 
 public class JWCameraController : MonoBehaviour
 {
-    public CinemachineVirtualCamera baseCam;
-    public CinemachineVirtualCamera targetCam;
+    public CinemachineVirtualCameraBase currentCam;
+    
+    public CinemachineVirtualCameraBase baseCam;
+    public CinemachineVirtualCameraBase zoomCam;
+    public CinemachineVirtualCameraBase lockOnCam;
+    public CinemachineVirtualCameraBase bossCamera;
 
-    public void CameraChange(CinemachineVirtualCamera baseCam, CinemachineVirtualCamera changeCamera)
+
+    public List<CinemachineVirtualCameraBase> cameras = new List<CinemachineVirtualCameraBase>();
+
+    private void Start()
     {
-        baseCam.Priority = 0;   
-        changeCamera.Priority = 10;
+        currentCam = baseCam;
+
+        cameras.Add(baseCam);
+        cameras.Add(zoomCam);
+        cameras.Add(bossCamera);
+
+        foreach (var cam in cameras)
+        {
+            cam.Priority = 0;
+        }
+        
+        currentCam.Priority = 10;
     }
 
-    public void SetCamera(CinemachineVirtualCamera cam)
+    public void SetCamera(CinemachineVirtualCameraBase camera)
     {
+        currentCam = camera;
 
+        foreach(var cam in cameras)
+        {
+            cam.Priority = 0;
+        }
+
+        currentCam.Priority = 10;
     }
 }
