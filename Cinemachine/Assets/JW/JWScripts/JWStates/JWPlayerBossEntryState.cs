@@ -26,13 +26,11 @@ public class JWPlayerBossEntryState : JWPlayerState
 
         timer -= Time.deltaTime;
 
-        Debug.Log(timer);
-
         if (timer < 0)
         {
             stateMachine.SetState(player.idleState);
             player.bossTrigger = false;
+            timer = 5f;
         }
-
     }
 }

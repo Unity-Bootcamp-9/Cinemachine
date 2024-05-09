@@ -28,12 +28,23 @@ public class JWPlayerLockonState : JWPlayerState
 
         player.transform.rotation = Quaternion.LookRotation(direction);
 
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = new Vector3(v, 0f, h).normalized;
+        Vector3 movement = new Vector3(-v, 0f, -h).normalized;
 
-        player.rb.velocity = movement * 2;
+        player.rb.velocity = movement * 5;
+
+        if (h != 0 || v!= 0)
+        {
+            player.animator.SetBool("Ready", false);
+            player.animator.SetBool("Walk", true);
+        }
+        else
+        {
+            player.animator.SetBool("Ready", true);
+            player.animator.SetBool("Walk", false);
+        }
 
         if (Input.GetKeyUp(KeyCode.R))
         {

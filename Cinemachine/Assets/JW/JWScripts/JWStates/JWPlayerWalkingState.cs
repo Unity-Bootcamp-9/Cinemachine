@@ -30,17 +30,6 @@ public class JWPlayerWalkingState : JWPlayerGroundState
         Vector3 cameraForward = Vector3.Scale(player.mainCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 moveDirection = vertical * cameraForward + horizontal * player.mainCamera.transform.right;
 
-        // 마우스 위치값 받기
-        Vector3 mousePosition = Input.mousePosition;
-        // 카메라와 마우스 위치값 사이의 각도 구하기
-        float angle = Vector3.SignedAngle(player.mainCamera.transform.forward, mousePosition - player.mainCamera.WorldToScreenPoint(player.transform.position), Vector3.up);
-
-        // 좌우 반전
-        if (angle < 0)
-        {
-            horizontal = -horizontal;
-        }
-
         player.rb.MovePosition(player.transform.position + moveDirection.normalized * moveSpeed * Time.deltaTime);
 
         if (moveDirection != Vector3.zero)

@@ -21,6 +21,7 @@ public class JWCameraController : MonoBehaviour
 
         cameras.Add(baseCam);
         cameras.Add(zoomCam);
+        cameras.Add(lockOnCam);
         cameras.Add(bossCamera);
 
         foreach (var cam in cameras)
@@ -39,7 +40,6 @@ public class JWCameraController : MonoBehaviour
         {
             cam.Priority = 0;
         }
-
         currentCam.Priority = 10;
     }
 }
