@@ -9,6 +9,7 @@ public class JWPlayerController : MonoBehaviour
     public Animator animator;
     public Camera mainCamera;
     public AnimationTrigger animTrigger;
+    public JWCameraController camController;
 
     #region States
     public JWPlayerStateMachine stateMachine;
@@ -19,11 +20,14 @@ public class JWPlayerController : MonoBehaviour
     public JWPlayerReadyState readyState;
     public JWPlayerRunJumpState runJumpState;
     public JWPlayerJumpAttackState jumpAttackState;
+    public JWPlayerBossEntryState bossEntryState;
+    public JWPlayerLockonState lockonState;
     #endregion
+    public GameObject target;
 
-    Vector3 mouseDir;
-    public float moveSpeed;
-    public float runSpeed;
+    public bool bossTrigger = false;
+
+    public float rotateSpeed;
 
     [Header("GroundCheck")]
     public Transform groundCheck;
@@ -32,14 +36,13 @@ public class JWPlayerController : MonoBehaviour
 
     public Rigidbody rb;
 
-    public CinemachineVirtualCameraBase defaultCamera;
-    public CinemachineVirtualCameraBase zoomInCamera;
     
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         animTrigger = GetComponentInChildren<AnimationTrigger>();
+        camController = GetComponent<JWCameraController>();
 
         stateMachine = new JWPlayerStateMachine();
 
@@ -50,6 +53,8 @@ public class JWPlayerController : MonoBehaviour
         readyState = new JWPlayerReadyState(this, stateMachine, animator, "Ready");
         runJumpState = new JWPlayerRunJumpState(this, stateMachine, animator, "RunJump");
         jumpAttackState = new JWPlayerJumpAttackState(this, stateMachine, animator, "JumpAttack");
+        lockonState = new JWPlayerLockonState(this, stateMachine, animator, "Ready");
+        bossEntryState = new JWPlayerBossEntryState(this, stateMachine, animator, "Idle");
     }
 
     private void Start()
@@ -60,83 +65,13 @@ public class JWPlayerController : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
-        //Move();
-        Jump();
+        animator.SetBool("isGrounded", isGrounded);
+
         GroundCheck();
-        CameraChange();
         Debug.Log(stateMachine.currentState);
     }
 
-
-    public float horizontal;
-    public float vertical;
-
-    //private void Move()
-    //{
-    //    horizontal = Input.GetAxisRaw("Horizontal");
-    //    vertical = Input.GetAxisRaw("Vertical");
-
-    //    Vector3 cameraForward = Vector3.Scale(mainCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
-    //    Vector3 moveDirection = vertical * cameraForward + horizontal * mainCamera.transform.right;
-
-    //    if(isGrounded)
-    //    {
-    //        if(stateMachine.GetState() == runningState)
-    //        {
-    //            rb.MovePosition(transform.position + moveDirection.normalized * runSpeed * Time.deltaTime);
-    //        }
-    //        else
-    //        {
-    //             rb.MovePosition(transform.position + moveDirection.normalized * moveSpeed * Time.deltaTime);
-    //        }
-
-    //        if (moveDirection != Vector3.zero)
-    //        {
-    //            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-    //            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-    //        }
-    //    }
-    //}
-
-    private void Move()
-    {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 cameraForward = Vector3.Scale(mainCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 moveDirection = vertical * cameraForward + horizontal * mainCamera.transform.right;
-
-        // 마우스 위치값 받기
-        Vector3 mousePosition = Input.mousePosition;
-        // 카메라와 마우스 위치값 사이의 각도 구하기
-        float angle = Vector3.SignedAngle(mainCamera.transform.forward, mousePosition - mainCamera.WorldToScreenPoint(transform.position), Vector3.up);
-
-        // 좌우 반전
-        if (angle < 0)
-        {
-            horizontal = -horizontal;
-        }
-
-        if (isGrounded)
-        {
-            if (stateMachine.GetState() == runningState)
-            {
-                rb.MovePosition(transform.position + moveDirection.normalized * runSpeed * Time.deltaTime);
-            }
-            else
-            {
-                rb.MovePosition(transform.position + moveDirection.normalized * moveSpeed * Time.deltaTime);
-            }
-
-            if (moveDirection != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-            }
-        }
-    }
-
-
+ 
     private void GroundCheck()
     {
         Debug.DrawRay(groundCheck.position, Vector3.down * layLength, Color.red);
@@ -153,28 +88,11 @@ public class JWPlayerController : MonoBehaviour
         }
     }
 
-    public float rotateSpeed;
-
-    private void Jump()
+    private void OnTriggerEnter(Collider other)
     {
-        animator.SetBool("isGrounded", isGrounded);
-        //if (Input.GetKey(KeyCode.Space) && isGrounded)
-        //{
-        //    rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-        //}
-    }
-    
-    private void CameraChange()
-    {
-        if(stateMachine.GetState() == readyState)
+        if(other.CompareTag("BossTrigger"))
         {
-            zoomInCamera.enabled = true;
-            defaultCamera.enabled = false;
-        }
-        else
-        {
-            zoomInCamera.enabled = false;
-            defaultCamera.enabled = true;
+            bossTrigger = true;
         }
     }
 }

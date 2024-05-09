@@ -22,15 +22,15 @@ public class JWPlayerJumpAttackState : JWPlayerState
     {
         base.Update();
 
-        if(controller.animTrigger.CanMove())
+        if(player.animTrigger.CanMove())
         {
-            controller.transform.Translate(Vector3.forward * 2 * Time.deltaTime);
+            player.transform.Translate(Vector3.forward * 2 * Time.deltaTime);
         }
 
 
-        if (controller.animTrigger.endTrigger)
+        if (player.animTrigger.endTrigger)
         {
-            stateMachine.SetState(controller.idleState);
+            stateMachine.SetState(player.idleState);
         }
     }
 }

@@ -25,23 +25,27 @@ public class JWPlayerGroundState : JWPlayerState
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            stateMachine.SetState(controller.readyState);
+            stateMachine.SetState(player.readyState);
         }
         
         if(Input.GetKey(KeyCode.Q)) 
         {
-            stateMachine.SetState(controller.jumpAttackState);
+            stateMachine.SetState(player.jumpAttackState);
         }
 
+        if(Input.GetKey(KeyCode.R))
+        {
+            stateMachine.SetState(player.lockonState);
+        }
 
         if (Input.GetKey(KeyCode.LeftShift) && (Input.GetButton("Horizontal") || Input.GetButton("Vertical")))
         {
-            stateMachine.SetState(controller.runningState);
+            stateMachine.SetState(player.runningState);
         }
 
         else if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
         {
-            stateMachine.SetState(controller.walkingState);
+            stateMachine.SetState(player.walkingState);
         }
     }
 }
