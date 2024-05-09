@@ -3,30 +3,50 @@ using Cinemachine;
 
 public class BoxActivator : MonoBehaviour
 {
-    public CinemachineVirtualCamera BoxCamera;
+    public CinemachineVirtualCamera MapCamera;
+    public CinemachineVirtualCamera BoxCamera1;
+    public CinemachineVirtualCamera BoxCamera2;
     public CinemachineVirtualCamera BossCamera;
+    public GameObject Dragon;
 
     private void Start()
     {
-        Invoke("BossCameraOn", 20f);
+        Invoke("MapCameraOff", 8f);
+        Invoke("BossCameraOn", 30f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Box"))
+        if (other.CompareTag("Box1"))
         {
-            BoxCamera.m_Priority = 15;
-            Invoke("BoxCameraOff", 3f);
+            BoxCamera1.m_Priority = 15;
+            Invoke("BoxCameraOff", 5f);
+        }
+        if (other.CompareTag("Box2"))
+        {
+            BoxCamera2.m_Priority = 15;
+            Invoke("BoxCameraOff2", 5f);
         }
     }
 
     private void BoxCameraOff()
     {
-        BoxCamera.m_Priority = 5;
+        BoxCamera1.m_Priority = 5;
+    }
+
+    private void BoxCameraOff2()
+    {
+        BoxCamera2.m_Priority = 5;
+    }
+
+    private void MapCameraOff()
+    {
+        MapCamera.m_Priority = 5;
     }
 
     private void BossCameraOn()
     {
+        Dragon.SetActive(true);
         BossCamera.m_Priority = 15;
         Invoke("BossCameraOff", 5f);
     }
@@ -34,4 +54,5 @@ public class BoxActivator : MonoBehaviour
     {
         BossCamera.m_Priority = 5;
     }
+    
 }
