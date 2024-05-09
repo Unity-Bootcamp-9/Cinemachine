@@ -23,5 +23,9 @@ public class JWPlayerIdleState : JWPlayerGroundState
     {
         base.Update();
 
+        if(Input.GetKey(KeyCode.Space))
+        {
+            stateMachine.SetState(controller.jumpState);
+        }
     }
 }
