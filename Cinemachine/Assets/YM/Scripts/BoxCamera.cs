@@ -3,6 +3,7 @@ using Cinemachine;
 
 public class BoxActivator : MonoBehaviour
 {
+    public CinemachineVirtualCamera MapCamera;
     public CinemachineVirtualCamera BoxCamera1;
     public CinemachineVirtualCamera BoxCamera2;
     public CinemachineVirtualCamera BossCamera;
@@ -10,6 +11,7 @@ public class BoxActivator : MonoBehaviour
 
     private void Start()
     {
+        Invoke("MapCameraOff", 8f);
         Invoke("BossCameraOn", 20f);
     }
 
@@ -37,6 +39,10 @@ public class BoxActivator : MonoBehaviour
         BoxCamera2.m_Priority = 5;
     }
 
+    private void MapCameraOff()
+    {
+        MapCamera.m_Priority = 5;
+    }
 
     private void BossCameraOn()
     {
