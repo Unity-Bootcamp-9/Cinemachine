@@ -12,7 +12,7 @@ public class BoxActivator : MonoBehaviour
     private void Start()
     {
         Invoke("MapCameraOff", 8f);
-        Invoke("BossCameraOn", 20f);
+        Invoke("BossCameraOn", 30f);
     }
 
     private void OnTriggerEnter(Collider other)
