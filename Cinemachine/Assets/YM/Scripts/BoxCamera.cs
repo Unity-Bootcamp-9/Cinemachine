@@ -6,6 +6,7 @@ public class BoxActivator : MonoBehaviour
     public CinemachineVirtualCamera BoxCamera1;
     public CinemachineVirtualCamera BoxCamera2;
     public CinemachineVirtualCamera BossCamera;
+    public GameObject Dragon;
 
     private void Start()
     {
@@ -39,6 +40,7 @@ public class BoxActivator : MonoBehaviour
 
     private void BossCameraOn()
     {
+        Dragon.SetActive(true);
         BossCamera.m_Priority = 15;
         Invoke("BossCameraOff", 5f);
     }
