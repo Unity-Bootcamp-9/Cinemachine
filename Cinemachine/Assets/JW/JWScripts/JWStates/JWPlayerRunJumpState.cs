@@ -22,11 +22,11 @@ public class JWPlayerRunJumpState : JWPlayerState
     {
         base.Update();
 
-        controller.transform.Translate(Vector3.forward * 10 * Time.deltaTime);
+        player.transform.Translate(Vector3.forward * 10 * Time.deltaTime);
 
-        if(controller.animTrigger.endTrigger)
+        if(player.animTrigger.endTrigger)
         {
-            stateMachine.SetState(controller.idleState);
+            stateMachine.SetState(player.idleState);
         }
     }
 }

@@ -9,6 +9,8 @@ TagManager:
   - Boss
   - Box1
   - Box2
+  - PlayerEyes
+  - BossTrigger
   layers:
   - Default
   - TransparentFX

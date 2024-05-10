@@ -23,25 +23,25 @@ public class JWPlayerJumpState : JWPlayerState
     {
         base.Update();
 
-        controller.animator.SetFloat("yVelocity", controller.rb.velocity.y);
+        player.animator.SetFloat("yVelocity", player.rb.velocity.y);
 
-        if (controller.animTrigger.isJumping & controller.rb.velocity.y < 5)
+        if (player.animTrigger.isJumping & player.rb.velocity.y < 5)
         {
-            controller.rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            player.rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             Debug.Log("Active");
         }
 
-        if(!controller.isGrounded)
+        if(!player.isGrounded)
         {
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
 
-            controller.transform.Translate(h * Time.deltaTime * 2, 0, v * Time.deltaTime * 2);
+            player.transform.Translate(h * Time.deltaTime * 2, 0, v * Time.deltaTime * 2);
         }
 
-        if (controller.animTrigger.endTrigger)
+        if (player.animTrigger.endTrigger)
         {
-            stateMachine.SetState(controller.idleState);
+            stateMachine.SetState(player.idleState);
         }
     }
 }
