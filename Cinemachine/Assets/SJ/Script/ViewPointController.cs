@@ -2,9 +2,6 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
-using UnityEditor.Timeline.Actions;
-using UnityEngine.Timeline;
 using UnityEngine.Playables;
 
 public class ViewPointController : MonoBehaviour
